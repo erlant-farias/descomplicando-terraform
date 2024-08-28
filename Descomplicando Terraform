@@ -1,0 +1,90 @@
+Lembrar de dar export nas variaveis de ambiente:
+export AWS_ACESS_KEY_ID=HASH
+export AWS_SECRET_ACCESS_KEY=HASH
+
+Comandos:
+
+terraform init
+terraform init -h 
+terraform init -upgrade 
+terraform init -backend-config="KEY=VALUE"
+
+terraform plan
+terraform plan -h 
+terraform plan -refresh=false
+terraform plan -out arquivo-de-plano
+terraform plan -var image_id="ami-xxxxxxx" -out arquivo-de-plano
+terraform plan -var-file="variables.tfvars" -out arquivo-de-plano
+
+terraform apply
+terraform apply "arquivo-de-plano"
+
+terraform state pull >> arquivodetexto.tfstate
+terraform state push arquivodetexto.tfstate
+terraform state list
+terraform state rm     #Tira o recurso da gerencia, não apaga no mundo real
+terraform state mv aws_instance.web aws_instance.web2 
+terraform state mv 'packet_device.worker' 'module.app' #move o recurso para dentro do modulo filho
+terraform state show
+
+terraform import aws_instance.example i-abcd1234
+
+terraform refresh
+
+terraform destroy
+terraform destroy -lock=false
+
+terraform taint -allow-missing aws_instance.web
+terraform taint aws_security_group.allow_all
+terraform untaint aws_security_group.allow_all
+
+terraform graph
+terraform graph -type=plan
+terraform graph -type=plan-destroy
+terraform graph -type=apply
+terraform graph -type=validate
+terraform graph -type=input
+terraform graph -type=refresh
+terraform graph | dot -Tsvg > graph.svg
+
+terraform workspace new production
+terraform workspace new staging
+terraform workspace list
+terraform workspace delete default
+terraform workspace select staging
+
+terraform fmt 
+terraform fmt -write=false
+terraform fmt -check
+terraform fmt -diff
+terraform fmt -list=false
+terraform fmt -recursive
+_____________________________________________________
+terraform init -backend=false
+terraform validate 
+terraform validate -json
+terraform validate -no-color
+_____________________________________________________
+terraform -install-autocomplete #reiniciar o bash
+terraform -uninstall-autocomplete
+
+Passar variaveis como variaveis de ambiente:
+
+export TF_VAR_image_id=ami-abc123
+
+Modulos Day02-Aula01
+Modulo Raiz (Root Modules -- Outputs -- Resources)
+Modulo Filho (Child Module - Inputs -- Outputs -- Resources)
+
+--------------------------------------------------------
+Instalando o jq (Manipulação de arquivos JSON)
+apk -U add jq
+
+terraform state pull | jq .resources
+
+Instalando o graphviz (Manipulação de arquivos DOT)
+apk -U add graphviz
+--------------------------------------------------------
+
+Debbuging
+TF_LOG=DEBUG terraform plan -out plan 

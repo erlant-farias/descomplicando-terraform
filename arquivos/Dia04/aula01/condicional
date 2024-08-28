@@ -1,0 +1,3 @@
+condition ? true_val : false_val
+
+var.a != "" ? var.a : "default-a"
